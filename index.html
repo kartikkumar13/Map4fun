@@ -10,6 +10,7 @@
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
     <link rel="stylesheet" href="leaflet-routing-machine.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
@@ -22,10 +23,12 @@
         }
 
         #map {
+            width: 100%;
             height: 600px;
         }
-        .leaflet-control-attribution{
-            display:none;
+
+        .leaflet-control-attribution {
+            display: none;
         }
     </style>
 
@@ -35,66 +38,50 @@
     <div id="map"></div>
 
     <script>
-  /*   var map = L.map('map').setView([28.635036, 77.284996], 13);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}{r}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-       
-        // var marker = L.marker([28.635036, 77.284996]).addTo(map);
-
+        var coords = {};
+        coords['start'] = {
+            "lat": 28.635036,
+            "lng": 77.284996
+        };
+        coords['end'] = {
+            "lat": 28.421477,
+            "lng": 76.912834
+        };
         var latlngs = [
-            [28.635036, 77.284996],
-            [28.516847, 77.234871],
-            [28.421477, 76.912834]
-        ];
-        //var polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
-        // // zoom the map to the polyline
-       
-
-        var path = L.Routing.control({
-            waypoints: latlngs,
-            routeWhileDragging: true,
-            show:false
-        }).addTo(map);
- //map.fitBounds(path.getBounds());	 */
- var coords = {};
-coords['start'] = {
-"lat" : 28.635036,
-"lng" : 77.284996
-};
-coords['end'] = {
-"lat" : 28.421477,
-"lng" : 76.912834
-};
-   var latlngs = [
             [coords.start.lat, coords.start.lng],
             [coords.end.lat, coords.end.lng]
         ];
- 
-var map = L.map("map").setView([28.6267932, 77.0924552], 6);
 
-var markers = [
-  L.marker([coords.start.lat, coords.start.lng]),
-  L.marker([coords.end.lat, coords.end.lng])
-];
-//console.log(markers);
-var path = L.Routing.control({
+        var map = L.map("map").setView([28.6267932, 77.0924552], 6);
+
+        var markers = [
+            L.marker([coords.start.lat, coords.start.lng]),
+            L.marker([coords.end.lat, coords.end.lng])
+        ];
+        //console.log(markers);
+        var path = L.Routing.control({
             waypoints: latlngs,
             routeWhileDragging: true,
-            show:false
+            show: false
         }).addTo(map);
 
-var group = L.featureGroup(markers).addTo(map);
+        var group = L.featureGroup(markers).addTo(map);
 
 
 
-setTimeout(function () {
-  map.fitBounds(group.getBounds());
-}, 1000);
+        setTimeout(function () {
+            map.fitBounds(group.getBounds());
+        }, 1000);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    </script>
+    <script>
+        $(window).ready(function () {
+            var window_height = $(window).height();
+            $('#map').height(window_height);
+        });
     </script>
 </body>
 
